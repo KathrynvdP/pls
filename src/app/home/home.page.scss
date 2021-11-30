@@ -1,0 +1,50 @@
+.button {
+    height: 50px;
+    min-width: 200px;
+}
+ion-content {
+    --background: #ffffff !important;
+  }
+  ion-card {
+    border: darkblue solid 2px;
+    width: 50%;
+    height: 100%;
+    margin-left: 25%;
+    font-size: x-large;
+    border-radius: 20px;
+    padding: 5px;
+  }
+
+  .card {
+    border: darkblue solid 2px;
+    height: 100%;
+    font-size: x-large;
+    border-radius: 20px;
+    padding: 5px;
+  }
+
+  .grid-header {
+    background: #9598a3;
+    text-align: center;
+    border: solid #31479D;
+  }
+  .grid-header-item {
+    border-right: solid #31479D;
+    text-align: center;
+  }
+  
+  .grid-row {
+    border-bottom: solid #31479D;
+    border-right: solid #31479D;
+    border-left: solid #31479D;
+    color: #000;
+  }
+  .grid-row-item {
+    border-right: solid #31479D;
+    background-color: #fff;
+    text-align: center;
+  }
+  .last-col {
+    background-color: #fff;
+    text-align: center;
+  }

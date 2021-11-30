@@ -1,0 +1,40 @@
+
+ion-content {
+    ion-card {
+        padding: 5%;
+
+        .field   {
+            font-size: small;
+        }
+        .headings{
+            font-size: small;
+        }
+    }
+}
+
+.grid-header {
+    color: #000;
+    background: #9598a3;
+    text-align: center;
+    border: solid #31479D;
+  }
+  .grid-header-item {
+    border-right: solid #31479D;
+    text-align: center;
+  }
+  
+  .grid-row {
+    border-bottom: solid #31479D;
+    border-right: solid #31479D;
+    border-left: solid #31479D;
+    color: #000;
+  }
+  .grid-row-item {
+    border-right: solid #31479D;
+    background-color: #fff;
+    text-align: center;
+  }
+  .last-col {
+    background-color: #fff;
+    text-align: center;
+  }

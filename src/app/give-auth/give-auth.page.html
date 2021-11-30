@@ -1,0 +1,72 @@
+<ion-content>
+  <ion-grid style="height: 100%">
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%">
+      <div class="holder" style="width: 700px;">
+        <ion-card class="card">
+
+          <ion-row>
+            <ion-col>
+              <ion-button style="float: right;" shape="round" (click)="back()" fill="clear">
+                <ion-icon name="close" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-label style="color: red; font-size: x-large; text-align: center;">By authorising this vehicle you are
+            taking responsibility for any deviations that may have been overlooked. Please make sure that you have
+            assessed the inspections before continuing.</ion-label>
+
+          <ion-item *ngIf="override === true">
+            <ion-label style="color: darkblue;" position="floating">Override Reason</ion-label>
+            <ion-input [(ngModel)]="reason"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label style="color: darkblue;" position="floating">Notes</ion-label>
+            <ion-input [(ngModel)]="note"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label style="color: darkblue;" position="floating">Operator</ion-label>
+            <ion-input [(ngModel)]="name"></ion-input>
+          </ion-item>
+
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-item>
+                <ion-label class="ion-text-center">Signature </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row [hidden]="sig !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+            <ion-col class="ion-text-center">
+              <signature-pad style="border: solid #666666;" #sigpad ngDefaultControl [options]="signaturePadOptions"
+                (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()">
+              </signature-pad>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="sig !== ''">
+            <ion-col class="ion-text-center">
+              <img [src]="sig">
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-button fill="clear" color="danger" (click)="clearPad()">Reset Signature</ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-button (click)="auth()" color="danger" shape="round">
+                <ion-icon slot="start" name="checkmark"></ion-icon>Authorise
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-content>

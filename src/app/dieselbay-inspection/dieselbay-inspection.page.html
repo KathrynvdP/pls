@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Diesel Fill Sheet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <ion-item>
+      <ion-label position="floating">Truck Registration</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="truck.truckReg"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Truck Check Type</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="truck.checkType"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Job Card Number</ion-label>
+      <ion-input readOnly="true" [(ngModel)]="truck.jobNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Date</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="truck.date"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Time</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="truck.timeIn"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Order Number</ion-label>
+      <ion-input (ionChange)="update()" [(ngModel)]="truck.orderNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Liters Taken - Truck</ion-label>
+      <ion-input (ionChange)="update()" [(ngModel)]="truck.truckLit"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Does this truck have a trailer?</ion-label>
+      <ion-row>
+        <ion-col size="2">
+          <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>Yes </ion-col>
+        <ion-col size="2">
+          <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>No</ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item *ngIf="optionA1">
+      <ion-label position="floating">Liters Taken - Trailer Belly Tank</ion-label>
+      <ion-input [(ngModel)]="truck.trailerLit"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Controller Name</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="truck.controller"></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-item>
+          <ion-label class="ion-text-center">Controller Signature </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="truck.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+      <ion-col class="ion-text-center">
+        <signature-pad style="border: solid #666666;" #sigpad ngDefaultControl [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()">
+        </signature-pad>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="truck.controllerSig !== ''">
+      <ion-col class="ion-text-center">
+        <img [src]="truck.controllerSig">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button fill="clear" color="danger" (click)="clearPad()">Reset Signature</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "992971442418",
+    "firebase_url": "https://premier-logistics.firebaseio.com",
+    "project_id": "premier-logistics",
+    "storage_bucket": "premier-logistics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:992971442418:android:995d5069ca1599935d686b",
+        "android_client_info": {
+          "package_name": "com.pl.premierlogistics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "992971442418-pst2a1t2fb5nr984ogdlh5i2nodnncka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2AWMPnMG3BAaG0OPVQBsJPsTPq5nC-Po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "992971442418-pst2a1t2fb5nr984ogdlh5i2nodnncka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "992971442418-h6irairmfsk9sv74gok13cbcg5vaiq2g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pl.premierlogistics"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

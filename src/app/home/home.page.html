@@ -1,0 +1,188 @@
+<ion-content>
+
+  <div style="min-width: 100%; margin: 0 auto; text-align: center; margin-top: 20px;">
+    <img src="assets/imgs/logo.jpg" style="max-width: 60%; margin: 0 auto; text-align: center;">
+  </div>
+
+  <ion-row style="padding: 20px;">
+    <ion-col class="ion-text-center">
+      <ion-text style="color: white; text-align: center; font-size: x-large; padding: 15px;">Welcome {{user.name}}
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="userType !== 'Driver'">
+
+    <ion-row *ngIf="userType === 'Controller: Security In'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="securityIn()">
+          <ion-icon name="shield-checkmark" slot="start"></ion-icon>Security Check In
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="userType === 'Controller: Security Out'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="securityOut()">
+          <ion-icon name="shield-checkmark" slot="start"></ion-icon>Security Check Out
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!--
+    <ion-row *ngIf="userType === 'Controller: Security Out'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="reqAuth()">
+          <ion-icon name="lock-open" slot="start"></ion-icon>Request Authorisation
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    -->
+
+    <ion-row *ngIf="userType === 'Controller: Washbay'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="wash()">
+          <ion-icon name="water" slot="start"></ion-icon>Wash Bay Check In
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="userType === 'Controller: Workshop'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="work()">
+          <ion-icon src="assets/icon/repair.svg" slot="start"></ion-icon>Workshop Check In
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="userType === 'Controller: Tyre Bay'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="tyre()">
+          <ion-icon src="assets/icon/tire.svg" slot="start"></ion-icon>Tyre Bay Check In
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="userType === 'Controller: Diesel Bay'">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="diesel()">
+          <ion-icon src="assets/icon/fuel.svg" slot="start"></ion-icon>Diesel Bay Check In
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="userType === 'Foreman'">
+
+      <ion-row style="padding: 20px;">
+        <ion-col class="ion-text-center">
+          <ion-card>
+            Vehicles with deviations<br>
+            <b>{{count}}</b>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button style="width: 80%;" color="primary" (click)="dev()">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>Deviation Corrections
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="operator === true">
+
+      <ion-row style="padding-bottom: 20px;">
+        <ion-col class="ion-text-center">
+          <ion-card class="card" style="width: 80%; margin-left: 10%;">
+            Vehicles Awaiting Authorisation<br>
+            <b>{{truckCount}}</b>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-grid style="width: 80%;">
+        <ion-row class="grid-header">
+          <ion-col class="grid-header-item">
+            Truck Fleet Number
+          </ion-col>
+          <ion-col class="grid-header-item">
+            Time In
+          </ion-col>
+          <ion-col>
+            Authorise
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let truck of trucks" class="grid-row">
+          <ion-col class="grid-row-item">
+            {{truck.fleetNo}}
+          </ion-col>
+          <ion-col class="grid-row-item">
+            {{truck.timeCheckIn}}
+          </ion-col>
+          <ion-col class="last-col">
+            <ion-button color="primary" (click)="authorise(truck)" fill="clear" style="min-width:auto;">
+              <ion-icon name="checkmark-circle-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+  </div>
+
+  <div *ngIf="userType === 'Driver'">
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="fuel()">
+          <ion-icon src="assets/icon/fuel.svg" slot="start"></ion-icon>Fuel Record
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="tripExist">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="trip()">
+          <ion-icon name="location" slot="start"></ion-icon> End Trip Sheet
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="!tripExist">
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="trip()">
+          <ion-icon name="location" slot="start"></ion-icon> Start Trip Sheet
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button style="width: 80%;" color="primary" (click)="order()">
+          <ion-icon name="location" slot="start"></ion-icon>Start Order Trip
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </div>
+  <ion-row>
+    <ion-col>
+      <ion-button style="float: right; margin-top: 30px; margin-right: 5px;" color="warning" (click)="edit()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>Edit My Account
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button style="float: right; margin-top: 10px; margin-right: 5px;" color="danger" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>Sign Out
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

@@ -1,0 +1,227 @@
+<ion-header>
+  <ion-toolbar color="secondary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Equipment Check-In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <div *ngIf="type === 'trucks'">
+
+      <ion-item>
+        <ion-label position="floating">Truck Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truck.truckReg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Truck Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truck.checkType"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Job Card Number</ion-label>
+        <ion-input (ionChange)="update()" type="number" [(ngModel)]="truck.jobNo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truck.date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time In</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truck.timeIn"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Traps</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.traps"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Netts</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.netts"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Belts</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.belts"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Chains</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.chains"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Satans</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.satans"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Container Locks</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.locks"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Up Rights</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.uprights"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Coil Deck Plate</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="truck.plate"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Controller Name</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truck.controller"></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Controller Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]="truck.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #sigpad ngDefaultControl [options]="signaturePadOptions"
+            (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="truck.controllerSig !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="truck.controllerSig">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad()">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+    <div *ngIf="type === 'trailers'">
+
+      <ion-item>
+        <ion-label position="floating">Trailer Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trailer.trailerReg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trailer.checkType"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Job Card Number</ion-label>
+        <ion-input (ionChange)="update()" type="number" [(ngModel)]="trailer.jobNo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trailer.date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time In</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trailer.timeIn"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Traps</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.traps"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Netts</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.netts"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Belts</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.belts"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Chains</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.chains"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Satans</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.satans"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Container Locks</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.locks"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Up Rights</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.uprights"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Coil Deck Plate</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="trailer.plate"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Controller Name</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trailer.controller"></ion-input>
+      </ion-item>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Controller Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]="trailer.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #sigpad ngDefaultControl [options]="signaturePadOptions"
+            (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="trailer.controllerSig !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="trailer.controllerSig">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad()">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="save()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

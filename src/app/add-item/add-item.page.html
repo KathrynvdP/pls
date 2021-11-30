@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Add Truck/Trailer</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card style="background-color: white;">
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="scan()" color="primary">
+          <ion-icon name="qr-code" slot="start"></ion-icon>Scan
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Type</ion-label>
+      <ion-select interface="popover" [(ngModel)]="item.type" (ionChange)="checkType()">
+        <ion-select-option value="trucks">Truck</ion-select-option>
+        <ion-select-option value="trailers">Trailer</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="driver">
+      <ion-label style="color: darkblue;" position="floating">Select the Driver</ion-label>
+      <ion-select interface="popover" [(ngModel)]="item.driver">
+        <ion-select-option *ngFor="let driver of drivers">{{driver.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Registration</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="item.registration"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Fleet</ion-label>
+      <ion-input [(ngModel)]="item.fleet" (ionChange)="checkFleet()"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Fleet Number</ion-label>
+      <ion-input [(ngModel)]="item.fleetNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Licence Disk Expiry Date</ion-label>
+      <ion-datetime min="2020-01-01" max="2030-01-01" [(ngModel)]="item.licence" displayFormat="YYYY-MM-DD"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Current Mileage (kms)</ion-label>
+      <ion-input [(ngModel)]="item.km"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Colour</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="item.colour"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Current Check Level</ion-label>
+      <ion-select interface="popover" [(ngModel)]="item.checkType">
+        <ion-select-option>Small</ion-select-option>
+        <ion-select-option>Medium</ion-select-option>
+        <ion-select-option>Large</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!--   Photo Component   -->
+
+    <ion-grid *ngIf="!showCrop">
+      <!--Image Grid for Captured/ Selected Images-->
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3"
+            *ngFor="let photo of photos;">
+            <ion-button (click)="removeImage(photo)" fill="clear" class="trash_btn">
+              <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+            </ion-button>
+            <img src="{{photo.image}}" style="height: 100px;" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <!--Capture Image Button-->
+          <!--Display button form max 10 Images-->
+          <ion-button (click)="presentActionSheet()" [disabled]="photos.length > 9">
+            <ion-icon name="camera" slot="start"></ion-icon> UPLOAD
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    
+      <p><i>Maximum 10 Attachments</i></p>
+      <!--Hidden Input Selector for Gallery-->
+      <input type="file" #imageChooser (change)="onChooseFile($event)" [hidden]='true' />
+    
+    </ion-grid>
+
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

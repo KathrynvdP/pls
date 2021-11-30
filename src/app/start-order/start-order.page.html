@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Start Order Delivery</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card style="background-color: white;">
+
+    <div *ngIf="!inOrder">
+
+      <div *ngIf="orderAvail">
+
+        <h4 class="ion-text-center">You are currently assigned to Fleet Number {{driver.fleetNo}}<br>
+        </h4>
+        <h4 class="ion-text-center">This truck is currently assigned to<br>Load Number: {{loadNum}}<br>Delivery Notes:
+          <div *ngFor="let note of notes">
+            {{note.delNote}}
+          </div>
+        </h4>
+        <ion-row>
+          <ion-col style="text-align: center;">
+            <ion-button (click)="start()" color="success">Accept Order</ion-button>
+          </ion-col>
+        </ion-row>
+
+        <!--
+    
+        <div *ngIf="correctFleet === false">
+          <ion-item>
+            <ion-label>Please select the correct truck</ion-label>
+            <ionic-selectable placeholder="{{driver.fleetNo}}" style="text-align: right;" [(ngModel)]="truck"
+              [items]="trucks" itemValueField="fleetNo" itemTextField="fleetNo" [canSearch]="true"
+              (onChange)="newFleet(truck)">
+            </ionic-selectable>
+          </ion-item>
+        </div>
+    
+        <div *ngIf="correctFleet === true">
+          <h4 class="ion-text-center">This truck is currently assigned to<br>Load Number: {{loadNum}}<br>Delivery Notes:
+            <div *ngFor="let note of notes">
+              {{note.delNote}}
+            </div>
+          </h4>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-button (click)="orderQ('No')" color="danger">NO</ion-button>
+            </ion-col>
+            <ion-col style="text-align: center;">
+              <ion-button (click)="orderQ('Yes')" color="success">YES</ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+    
+        <div *ngIf="correctOrder === true && assDriver === '' && status === 'Dispatched'">
+          <h4 class="ion-text-center">Great! Let's Go!</h4>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-button (click)="start()" color="success">Start Order</ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+        -->
+
+        <div *ngIf="correctOrder === true && assDriver !== '' && status === 'Dispatched'">
+          <h4 class="ion-text-center">This order has already been assigned to another driver. Please contact an operator
+          </h4>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-button (click)="back()" color="primary">Back</ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+
+        <div *ngIf="correctOrder === true && assDriver !== '' && status === 'On Route'">
+          <h4 class="ion-text-center">This order is already On Route. Please contact an operator.
+          </h4>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-button (click)="back()" color="primary">Back</ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+
+      <div *ngIf="!orderAvail">
+        <h4 class="ion-text-center">You are currently assigned to Fleet Number {{driver.fleetNo}}<br>
+          This vehicle does not have any current orders</h4>
+
+        <ion-row>
+          <ion-col style="text-align: center;">
+            <ion-button (click)="back()" color="primary">Back</ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+
+    </div>
+
+    <div *ngIf="inOrder">
+
+      <h4 class="ion-text-center">You have an incomplete order. Would you like to resume?</h4>
+
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <ion-button (click)="resume()" color="success">Resume Order</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+  </ion-card>
+</ion-content>

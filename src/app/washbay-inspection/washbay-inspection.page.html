@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">WashBay Check In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card style="background-color: white;">
+
+    <ion-row *ngIf="truckCheck === false && trailerCheck === false">
+      <ion-col class="ion-text-center">
+        <ion-button (click)="scan()" color="primary">
+          <ion-icon name="qr-code" slot="start"></ion-icon>Scan Licence
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!--
+    <ion-row *ngIf="truckCheck === false && trailerCheck === false">
+      <ion-col class="ion-text-center">
+        <ion-button color="primary">
+          <ion-item style="--background: #123d82; color: white;">
+            <ion-label>Or Select Trailer</ion-label>
+            <ionic-selectable style="text-align: right;" [(ngModel)]="trailer" [items]="trailers"
+              (onChange)="updateTrailer(trailer)" itemValueField="code" itemTextField="fleetNo" [canSearch]="true">
+            </ionic-selectable>
+          </ion-item>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    -->
+
+    <div *ngIf="truckCheck === true">
+      <ion-label style="text-align: center;">Does this truck need a wash?</ion-label>
+      <ion-row>
+        <ion-col size="2">
+          <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>Yes </ion-col>
+        <ion-col size="2">
+          <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>No</ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="trailerCheck === true">
+      <ion-label style="text-align: center;">Does this trailer need a wash?</ion-label>
+      <ion-row>
+        <ion-col size="2">
+          <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>Yes</ion-col>
+        <ion-col size="2">
+          <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+          </ion-checkbox>
+        </ion-col>
+        <ion-col>No</ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="trailerCheck === true || truckCheck === true">
+      <ion-grid>
+        <ion-grid fixed *ngIf="photo !== ''">
+          <ion-row>
+            <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+              <ion-button (click)="removeImage()" fill="clear" class="trash_btn">
+                <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+              </ion-button>
+              <img src="{{photo}}" style="height: 100px;" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-row *ngIf="photo === ''">
+          <ion-col class="ion-text-center">
+            <ion-button (click)="presentActionSheet('photo', filePickerRef)">
+              <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <input type="file" #imageChooser (change)="onChooseFile($event, 'photo')" [hidden]='true' />
+      </ion-grid>
+    </div>
+
+    <ion-row *ngIf="truckCheck === true || trailerCheck === true">
+      <ion-col class="ion-text-center">
+        <ion-button (click)="save()" color="primary">
+          <ion-icon name="save" slot="start"></ion-icon>Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>

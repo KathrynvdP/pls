@@ -1,0 +1,110 @@
+<ion-content>
+  <ion-grid style="height: 100%">
+    <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%">
+      <div class="holder" style="width: 600px;">
+
+        <ion-row>
+          <ion-col class="ion-text-right">
+            <ion-button color="light" (click)="close()" fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
+          </ion-col>
+        </ion-row>
+
+        <ion-card class="card">
+
+          <ion-title class="ion-text-center">Edit Account</ion-title>
+
+          <ion-item>
+            <ion-label>User Name</ion-label>
+            <ion-input style="text-align: right;" [(ngModel)]="user.name"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>User Surname</ion-label>
+            <ion-input style="text-align: right;" [(ngModel)]="user.surname"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>User Email</ion-label>
+            <ion-input style="text-align: right;" [readonly]="true" [(ngModel)]="user.email"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>User Password</ion-label>
+            <ion-input [readonly]="true" style="text-align: right;" [(ngModel)]="user.password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>User Info</ion-label>
+            <ion-textarea style="text-align: right;" [(ngModel)]="user.info"></ion-textarea>
+          </ion-item>
+
+          <!--
+          <ion-item *ngIf="user.type === 'Driver'">
+            <ion-label>Assigned Truck</ion-label>
+            <ionic-selectable placeholder="{{user.fleetNo}}" style="text-align: right;" [(ngModel)]="truck" [items]="trucks" itemValueField="fleetNo"
+              itemTextField="fleetNo" [canSearch]="true">
+            </ionic-selectable>
+          </ion-item>
+          -->
+
+          <ion-item>
+            <ion-label>User Type</ion-label>
+            <ion-select style="text-align: right;" [(ngModel)]="user.type">
+              <ion-select-option>Driver</ion-select-option>
+              <ion-select-option>Foreman</ion-select-option>
+              <ion-select-option>Controller: Security In</ion-select-option>
+              <ion-select-option>Controller: Security Out</ion-select-option>
+              <ion-select-option>Controller: Washbay</ion-select-option>
+              <ion-select-option>Controller: Equipment Bay</ion-select-option>
+              <ion-select-option>Controller: Tyre Bay</ion-select-option>
+              <ion-select-option>Controller: Workshop</ion-select-option>
+              <ion-select-option>Controller: Diesel Bay</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!--   Photo Component   -->
+
+          <ion-grid *ngIf="!showCrop">
+            <!--Image Grid for Captured/ Selected Images-->
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3"
+                  *ngFor="let photo of photos;">
+                  <ion-button (click)="removeImage(photo)" fill="clear" class="trash_btn">
+                    <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                  </ion-button>
+                  <img src="{{photo.image}}" style="height: 100px;" />
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <!--Capture Image Button-->
+                <!--Display button form max 10 Images-->
+                <ion-button (click)="presentActionSheet()" [disabled]="photos.length > 9">
+                  <ion-icon name="camera" slot="start"></ion-icon> Photo
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+            <!--<p><i>Maximum 1 Attachment</i></p>
+            Hidden Input Selector for Gallery-->
+            <input type="file" #imageChooser (change)="onChooseFile($event)" [hidden]='true' />
+
+          </ion-grid>
+          
+          <ion-row>
+            <ion-col class="ion-text-center">
+              <ion-button (click)="update()" color="primary" shape="round">
+                <ion-icon slot="start" name="save"></ion-icon>Update Account
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </ion-card>
+      </div>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

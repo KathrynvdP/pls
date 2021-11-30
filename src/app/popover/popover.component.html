@@ -1,0 +1,15 @@
+<div *ngFor="let note of notes">
+  <ion-item>
+    <ion-buttons style="width: 100%;">
+      <ion-button *ngIf="note.pod === '' || note.pod === undefined" (click)="upload(note)" style="width: 100%;">Upload POD {{note.delNote}}
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="note.pod !== '' && note.pod !== undefined" (click)="upload(note)" style="width: 100%;">Replace POD {{note.delNote}}
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <input type="file" #imageChooser (change)="onChooseFile($event, note)" [hidden]='true' />
+</div>
+
+

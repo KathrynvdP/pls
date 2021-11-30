@@ -1,0 +1,41 @@
+.grid-header {
+    background: #acadaf;
+    text-align: center;
+    color: black;
+    border: solid #92949c;
+  }
+  .grid-header-item {
+    border-right: solid #92949c;
+    text-align: center;
+    line-height: 30px;
+  }
+  
+  .grid-row {
+    border-bottom: solid #92949c;
+    border-right: solid #92949c;
+    border-left: solid #92949c;
+    color: #000;
+  }
+  .grid-row-item {
+    border-right: solid #92949c;
+    background-color: #fff;
+    text-align: center;
+    line-height: 30px;
+  }
+  .last-col {
+    background-color: #fff;
+    text-align: center;
+    line-height: 30px;
+  }
+  .header-last {
+    background: #92949c;
+    text-align: center;
+    color: white;
+  }
+  .search {
+    text-align: center;
+    border: solid;
+    border-width: thin;
+    border-color: black;
+  }
+  

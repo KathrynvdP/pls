@@ -1,0 +1,289 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Security Check In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="scan('truck')" color="primary">
+          <ion-icon name="qr-code" slot="start"></ion-icon>Scan Truck
+        </ion-button>
+        <ion-button #selectFleet (click)="openSelectable()" color="secondary">
+          <ion-icon name="car" slot="start"></ion-icon>Fleet Number
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ionic-selectable id="fleetNoList" #fleetNoList style="overflow-wrap: anywhere;" class="ion-text-wrap select"
+      [items]="trucks" itemTextField="fleetNo" [canSearch]="true" [hidden]="true" (onChange)="onTruckSelected($event)">
+      <ng-template ionicSelectableTitleTemplate>
+        Fleet Numbers
+      </ng-template>
+    </ionic-selectable>
+
+    <ion-item>
+      <ion-label position="floating">Truck Registration</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.truckReg"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Truck KM</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.truckKM"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Truck Check Type</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.truckCheck"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Does this Truck have a trailer 1</ion-label>
+      <ion-checkbox (ionChange)="update()" [(ngModel)]="trailer1"></ion-checkbox>
+    </ion-item>
+
+    <div *ngIf="trailer1">
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="scan('trailer1')" color="primary">
+            <ion-icon name="qr-code" slot="start"></ion-icon>Scan Trailer 1
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-item>
+        <ion-label>Or Select Trailer 1</ion-label>
+        <ionic-selectable style="text-align: right;" [(ngModel)]="trailerA" [items]="trailers"
+          (onChange)="updateTrailer1(trailerA)" itemValueField="code" itemTextField="fleetNo" [canSearch]="true">
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 1 Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer1Reg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 1 Fleet No</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer1Fleet"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: darkblue;" position="floating">Trailer 1 KM</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.trailer1KM"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 1 Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer1Check"></ion-input>
+      </ion-item>
+
+    </div>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Does this Truck have a trailer 2</ion-label>
+      <ion-checkbox [(ngModel)]="trailer2"></ion-checkbox>
+    </ion-item>
+
+    <div *ngIf="trailer2">
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="scan('trailer2')" color="primary">
+            <ion-icon name="qr-code" slot="start"></ion-icon>Scan Trailer 2
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-item>
+        <ion-label>Or Select Trailer 2</ion-label>
+        <ionic-selectable style="text-align: right;" [(ngModel)]="trailerB" [items]="trailers"
+          (onChange)="updateTrailer2(trailerB)" itemValueField="code" itemTextField="fleetNo" [canSearch]="true">
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 2 Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer2Reg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 2 Fleet No</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer2Fleet"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: darkblue;" position="floating">Trailer 2 KM</ion-label>
+        <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.trailer2KM"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Trailer 2 Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="checkin.trailer2Check"></ion-input>
+      </ion-item>
+
+    </div>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">JOB CARD NUMBER</ion-label>
+      <ion-input readOnly="true" [(ngModel)]="checkin.jobNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">DATE</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.date"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">TIME IN</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.timeIn"></ion-input>
+    </ion-item>
+
+    <!--
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="scan('driver')" color="primary">
+          <ion-icon name="qr-code" slot="start"></ion-icon>Scan Driver Licence
+        </ion-button>
+      </ion-col>
+    </ion-row>
+-->
+
+    <ion-item>
+      <ion-label position="floating">DRIVER NAME</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.driver"></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col style="color: darkblue;" size="10" class="ion-text-center">
+        <ion-label>Is this the correct driver?</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-checkbox [(ngModel)]="correctDriver" (ionChange)="getDrivers()"></ion-checkbox>
+      </ion-col>
+    </ion-row>
+
+    <ion-item *ngIf="correctDriver === false">
+      <ion-label position="floating">SELECT THE DRIVER</ion-label>
+      <ionic-selectable style="text-align: right;" [(ngModel)]="driver" [items]="drivers"
+        (onChange)="updateDriver(driver)" itemValueField="key" itemTextField="displayName" [canSearch]="true">
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- 
+    <ion-item>
+      <ion-label position="floating">PARKING BAY NUMBER</ion-label>
+      <ion-input readOnly="true" [(ngModel)]="checkin.bayNo"></ion-input>
+    </ion-item>
+     -->
+
+    <ion-title style="text-align: center;">Equipment Check-In</ion-title>
+
+    <ion-item>
+      <ion-label position="floating">Tarps</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.traps"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Netts</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.netts"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Straps</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.belts"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Ratchets</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.ratchets"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Chains</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.chains"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Satans</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.satans"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Container Locks</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.locks"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Up Rights</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.uprights"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Coil Deck Plate</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.plate"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Fire Extinguisher</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.fire"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Stop blocks</ion-label>
+      <ion-input type="number" (ionChange)="update()" [(ngModel)]="checkin.blocks"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">CONTROLLER NAME</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="checkin.controller"></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-item>
+          <ion-label class="ion-text-center">Controller Signature </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row [hidden]="checkin.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+      <ion-col class="ion-text-center">
+        <signature-pad style="border: solid #666666;" #sigpad ngDefaultControl [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()">
+        </signature-pad>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="checkin.controllerSig !== ''">
+      <ion-col class="ion-text-center">
+        <img [src]="checkin.controllerSig">
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button fill="clear" color="danger" (click)="clearPad()">Reset Signature</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save Check
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

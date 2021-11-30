@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Workshop Check In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <ion-row *ngIf="!route">
+      <ion-col class="ion-text-center">
+        <ion-button (click)="scan()" color="primary">
+          <ion-icon name="qr-code" slot="start"></ion-icon>Scan Licence
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="!route">
+      <ion-col class="ion-text-center">
+        <ion-button color="primary">
+          <ion-item style="--background: #123d82; color: white;">
+            <ion-label>Or Select Trailer</ion-label>
+            <ionic-selectable style="text-align: right;" [(ngModel)]="trailer" [items]="trailers"
+              (onChange)="updateTrailer(trailer)" itemValueField="code" itemTextField="fleetNo" [canSearch]="true">
+            </ionic-selectable>
+          </ion-item>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="truckSmlCheck === true">
+      <ion-label style="text-align: center;">This truck needs a small workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="truckRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="truckMidCheck === true">
+      <ion-label style="text-align: center;">This truck needs a medium workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="truckRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="truckLrgCheck === true">
+      <ion-label style="text-align: center;">This truck needs a large workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="truckRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="trailerSmlCheck === true">
+      <ion-label style="text-align: center;">This trailer needs a small workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="trailerRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="trailerMidCheck === true">
+      <ion-label style="text-align: center;">This trailer needs a medium workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="trailerRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="trailerLrgCheck === true">
+      <ion-label style="text-align: center;">This trailer needs a large workshop inspection</ion-label>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="trailerRoute()">Let's Go!</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+  </ion-card>
+</ion-content>

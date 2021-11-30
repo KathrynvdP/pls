@@ -1,0 +1,1641 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Workshop Truck Checksheet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <!--      SMALL INSPECTION      -->
+
+    <div *ngIf="checkType === 'Small'">
+
+      <ion-item>
+        <ion-label position="floating">Truck Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckSml.truckReg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Truck Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckSml.checkType"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Job Card Number</ion-label>
+        <ion-input (ionChange)="update()" (ionChange)="update()" [(ngModel)]="truckSml.jobNo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckSml.date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time In</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckSml.timeIn"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Check oil level</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionA1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note1"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo1 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo1')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo1}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo1 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo1', filePickerRef1)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser1 (change)="onChooseFile($event, 'photo1')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check coolant level</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionB1" (ionChange)=changeB1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionB2" (ionChange)=changeB2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionB1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note2"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo2 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo2')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo2}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo2 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo2', filePickerRef2)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser2 (change)="onChooseFile($event, 'photo2')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check lights</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionC1" (ionChange)=changeC1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionC2" (ionChange)=changeC2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionC1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note3"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo3 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo3')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo3}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo3 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo3', filePickerRef3)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser3 (change)="onChooseFile($event, 'photo3')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Controller Name</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckSml.controller"></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Controller Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="truckSml.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing2 }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #sigpad2 ngDefaultControl [options]="signaturePadOptions"
+            (onBeginEvent)="drawStart2()" (onEndEvent)="drawComplete2()">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="truckSml.controllerSig !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="truckSml.controllerSig">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad2()">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!--    MEDIUM INSPECTION      -->
+    <div *ngIf="checkType === 'Medium'">
+
+      <ion-item>
+        <ion-label position="floating">Truck Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckMid.truckReg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Truck Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckMid.checkType"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Job Card Number</ion-label>
+        <ion-input (ionChange)="update()" (ionChange)="update()" [(ngModel)]="truckMid.jobNo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckMid.date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time In</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckMid.timeIn"></ion-input>
+      </ion-item>
+
+      <ion-title style="text-align: center;">Truck Undercarriage</ion-title>
+
+      <ion-item>
+        <ion-label>Check engine water/oil leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionA1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note1"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo1 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo1')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo1}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo1 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo1', filePickerRef1)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser1 (change)="onChooseFile($event, 'photo1')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check Gearbox oil leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionB1" (ionChange)=changeB1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionB2" (ionChange)=changeB2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionB1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note2"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo2 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo2')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo2}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo2 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo2', filePickerRef2)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser2 (change)="onChooseFile($event, 'photo2')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check propshafts play</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionC1" (ionChange)=changeC1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionC2" (ionChange)=changeC2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionC1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note3"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo3 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo3')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo3}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo3 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo3', filePickerRef3)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser3 (change)="onChooseFile($event, 'photo3')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check spring packs/Air bags </ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionD1" (ionChange)=changeD1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionD2" (ionChange)=changeD2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+      
+      <div *ngIf="optionD1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note4"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo4 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo4')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo4}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo4 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo4', filePickerRef4)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser4 (change)="onChooseFile($event, 'photo4')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check Brakes</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionE1" (ionChange)=changeE1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionE2" (ionChange)=changeE2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionE1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note5"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo5 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo5')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo5}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo5 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo5', filePickerRef5)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser5 (change)="onChooseFile($event, 'photo5')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-title style="text-align: center;">Truck Exterior</ion-title>
+
+      <ion-item>
+        <ion-label>Check engine oil and coolant level</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionF1" (ionChange)=changeF1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionF2" (ionChange)=changeF2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionF1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note6"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo6 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo6')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo6}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo6 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo6', filePickerRef6)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser6 (change)="onChooseFile($event, 'photo6')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check Windscreen, windows and mirrors</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionG1" (ionChange)=changeG1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionG2" (ionChange)=changeG2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionG1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note7"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo7 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo7')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo7}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo7 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo7', filePickerRef7)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser7 (change)="onChooseFile($event, 'photo7')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check licence disc validity</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionH1" (ionChange)=changeH1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionH2" (ionChange)=changeH2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionH1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note8"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo8 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo8')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo8}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo8 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo8', filePickerRef8)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser8 (change)="onChooseFile($event, 'photo8')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check reported defects</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionI1" (ionChange)=changeI1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionI2" (ionChange)=changeI2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionI1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note9"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo9 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo9')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo9}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo9 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo9', filePickerRef9)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser9 (change)="onChooseFile($event, 'photo9')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check Lights</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionJ1" (ionChange)=changeJ1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionJ2" (ionChange)=changeJ2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionJ1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note10"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo10 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo10')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo10}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo10 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo10', filePickerRef10)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser10 (change)="onChooseFile($event, 'photo10')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Notes</ion-label>
+        <ion-textarea [(ngModel)]="truckMid.notes"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Controller Name</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckMid.controller"></ion-input>
+
+      </ion-item>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Controller Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="truckMid.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing2 }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #sigpad2 ngDefaultControl [options]="signaturePadOptions"
+            (onBeginEvent)="drawStart2()" (onEndEvent)="drawComplete2()">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="truckMid.controllerSig !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="truckMid.controllerSig">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad2()">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+    <!--    LARGE INSPECTION      -->
+    <div *ngIf="checkType === 'Large'">
+
+      <ion-item>
+        <ion-label position="floating">Truck Registration</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckLrg.truckReg"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Truck Check Type</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckLrg.checkType"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Job Card Number</ion-label>
+        <ion-input (ionChange)="update()" (ionChange)="update()" [(ngModel)]="truckLrg.jobNo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckLrg.date"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time In</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckLrg.timeIn"></ion-input>
+      </ion-item>
+
+      <ion-title style="text-align: center;">Truck Undercarriage</ion-title>
+
+      <ion-item>
+        <ion-label>Check radiator and water pipes for leaks and damage</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionA1" (ionChange)=changeA1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionA2" (ionChange)=changeA2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionA1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note1"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo1 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo1')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo1}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo1 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo1', filePickerRef1)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser1 (change)="onChooseFile($event, 'photo1')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check engine for oil and water leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionB1" (ionChange)=changeB1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionB2" (ionChange)=changeB2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionB1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note2"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo2 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo2')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo2}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo2 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo2', filePickerRef2)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser2 (change)="onChooseFile($event, 'photo2')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check bellhousing if secure</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionC1" (ionChange)=changeC1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionC2" (ionChange)=changeC2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionC1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note3"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo3 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo3')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo3}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo3 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo3', filePickerRef3)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser3 (change)="onChooseFile($event, 'photo3')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check gearbox for leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionD1" (ionChange)=changeD1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionD2" (ionChange)=changeD2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionD1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note4"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo4 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo4')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo4}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo4 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo4', filePickerRef4)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser4 (change)="onChooseFile($event, 'photo4')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check propshafts if secure and excessive play</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionE1" (ionChange)=changeE1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionE2" (ionChange)=changeE2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionE1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note5"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo5 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo5')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo5}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo5 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo5', filePickerRef5)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser5 (change)="onChooseFile($event, 'photo5')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check suspension if secure (U-Bolts etc.)</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionF1" (ionChange)=changeF1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionF2" (ionChange)=changeF2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionF1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note6"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo6 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo6')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo6}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo6 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo6', filePickerRef6)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser6 (change)="onChooseFile($event, 'photo6')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check tyre wear and torque arms</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionG1" (ionChange)=changeG1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionG2" (ionChange)=changeG2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionG1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note7"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo7 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo7')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo7}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo7 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo7', filePickerRef7)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser7 (change)="onChooseFile($event, 'photo7')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check air valves/air bags for leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionH1" (ionChange)=changeH1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionH2" (ionChange)=changeH2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionH1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note8"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo8 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo8')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo8}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo8 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo8', filePickerRef8)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser8 (change)="onChooseFile($event, 'photo8')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check brake shoes/pads and state percentage of life used</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionI1" (ionChange)=changeI1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionI2" (ionChange)=changeI2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionI1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note9"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo9 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo9')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo9}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo9 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo9', filePickerRef9)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser9 (change)="onChooseFile($event, 'photo9')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check diffs/hubs for oil leaks</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionJ1" (ionChange)=changeJ1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionJ2" (ionChange)=changeJ2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionJ1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note10"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo10 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo10')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo10}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo10 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo10', filePickerRef10)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser10 (change)="onChooseFile($event, 'photo10')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-title style="text-align: center;">Truck Exterior</ion-title>
+
+      <ion-item>
+        <ion-label>Check engine oil level</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionK1" (ionChange)=changeK1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionK2" (ionChange)=changeK2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionK1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note11"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo11 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo11')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo11}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo11 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo11', filePickerRef11)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser11 (change)="onChooseFile($event, 'photo11')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check coolant level</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionL1" (ionChange)=changeL1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionL2" (ionChange)=changeL2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionL1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note12"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo12 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo12')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo12}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo12 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo12', filePickerRef12)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser12 (change)="onChooseFile($event, 'photo12')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check other fluid levels and check all filler caps</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionM1" (ionChange)=changeM1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionM2" (ionChange)=changeM2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionM1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note13"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo13 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo13')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo13}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo13 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo13', filePickerRef13)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser13 (change)="onChooseFile($event, 'photo13')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check windscreen for cracks and check wiper blades</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionN1" (ionChange)=changeN1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionN2" (ionChange)=changeN2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionN1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note14"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo14 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo14')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo14}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo14 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo14', filePickerRef14)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser14 (change)="onChooseFile($event, 'photo14')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check licence disc validity</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionO1" (ionChange)=changeO1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionO2" (ionChange)=changeO2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionO1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note15"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo15 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo15')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo15}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo15 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo15', filePickerRef15)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser15 (change)="onChooseFile($event, 'photo15')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check and attend to all reported defects</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionP1" (ionChange)=changeP1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionP2" (ionChange)=changeP2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionP1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note16"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo16 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo16')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo16}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo16 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo16', filePickerRef16)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser16 (change)="onChooseFile($event, 'photo16')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check all lights and indicators</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionQ1" (ionChange)=changeQ1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionQ2" (ionChange)=changeQ2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionQ1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note17"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo17 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo17')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo17}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo17 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo17', filePickerRef17)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser17 (change)="onChooseFile($event, 'photo17')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check reflectors and warning signs</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionR1" (ionChange)=changeR1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionR2" (ionChange)=changeR2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionR1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note18"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo18 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo18')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo18}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo18 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo18', filePickerRef18)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser18 (change)="onChooseFile($event, 'photo18')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check battery terminals and check if batteries are secure</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionS1" (ionChange)=changeS1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionS2" (ionChange)=changeS2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionS1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note19"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo19 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo19')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo19}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo19 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo19', filePickerRef19)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser19 (change)="onChooseFile($event, 'photo19')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label>Check chevron/tail board</ion-label>
+        <ion-row>
+          <ion-col size="2">
+            <ion-checkbox color="success" mode="ios" [(ngModel)]="optionT1" (ionChange)=changeT1()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>Yes </ion-col>
+          <ion-col size="2">
+            <ion-checkbox color="danger" mode="ios" [(ngModel)]="optionT2" (ionChange)=changeT2()>
+            </ion-checkbox>
+          </ion-col>
+          <ion-col>No</ion-col>
+        </ion-row>
+      </ion-item>
+
+      <div *ngIf="optionT1 === false">
+        <ion-item>
+          <ion-label position="floating">Note</ion-label>
+          <ion-input [(ngModel)]="deviations.note20"></ion-input>
+        </ion-item>
+        <ion-grid>
+          <ion-grid fixed *ngIf="deviations.photo20 !== ''">
+            <ion-row>
+              <ion-col size="12" size-xs="6" size-sm="6" size-md="4" size-lg="4" size-xl="3">
+                <ion-button (click)="removeImage('photo20')" fill="clear" class="trash_btn">
+                  <ion-icon name="trash-outline" slot="icon-only" color="danger"></ion-icon>
+                </ion-button>
+                <img src="{{deviations.photo20}}" style="height: 100px;" />
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-row *ngIf="deviations.photo20 === ''">
+            <ion-col class="ion-text-center">
+              <ion-button (click)="presentActionSheet('photo20', filePickerRef20)">
+                <ion-icon name="camera" slot="start"></ion-icon>UPLOAD PHOTO
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <input type="file" #imageChooser20 (change)="onChooseFile($event, 'photo20')" [hidden]='true' />
+        </ion-grid>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Notes</ion-label>
+        <ion-textarea [(ngModel)]="truckLrg.notes"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Controller Name</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="truckLrg.controller"></ion-input>
+      </ion-item>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Controller Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="truckLrg.controllerSig !== ''" [ngClass]="{ 'drawing-active': isDrawing2 }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #sigpad2 ngDefaultControl [options]="signaturePadOptions"
+            (onBeginEvent)="drawStart2()" (onEndEvent)="drawComplete2()">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="truckLrg.controllerSig !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="truckLrg.controllerSig">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad2()">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar color="light">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

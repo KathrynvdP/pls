@@ -1,0 +1,52 @@
+<ion-content class="fix-menu" style="background-color: #123d82 !important;">
+
+    <section class="login p-fixed d-flex common-img-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-md-6" style="margin: 0 auto; margin-top: 30px;">
+                        <img src="assets/imgs/logo.jpg" role="img" />
+                    </div>
+                    <div class="login-card card-block auth-body mr-auto ml-auto">
+                        <form class="md-float-material" [formGroup]="loginForm">
+                            <div class="auth-box">
+                                <div class="row m-b-20">
+                                    <div class="col-md-6">
+                                        <h3 class="text-left txt-primary">Sign In</h3>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="input-group">
+                                    <ion-input type="email" class="form-control" placeholder="Your Email Address"
+                                        formControlName="email"></ion-input>
+                                    <span class="md-line"></span>
+                                </div>
+                                <div class="input-group">
+                                    <ion-input type="password" class="form-control" placeholder="Password"
+                                        formControlName="password" (keyup.enter)="login()"></ion-input>
+                                    <span class="md-line"></span>
+                                </div>
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-button style="float:right;" fill="clear" color="danger"
+                                            routerLink="/forgot-password">Forgot Password</ion-button>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-button expand="block" color="success" (click)="login()">Sign in
+                                        </ion-button>
+                                    </ion-col>
+                                </ion-row>
+
+                                <hr />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</ion-content>

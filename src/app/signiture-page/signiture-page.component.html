@@ -1,0 +1,281 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md">
+    <ion-title class="ion-text-center">Complete Order</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="back()" fill="clear">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+    <ion-item>
+      <ion-label style="color: darkblue;" position="floating">Please select a POD option</ion-label>
+      <ion-select interface="popover" [(ngModel)]="option">
+        <ion-select-option value="epod">Electronic POD</ion-select-option>
+        <ion-select-option value="upload">Upload POD</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div *ngIf="option === 'upload'">
+
+      <ion-row *ngIf="note.pod === undefined || note.pod === ''">
+        <ion-col class="ion-text-center">
+          <ion-button (click)="upload()" color="success">
+            <ion-icon name="cloud-upload" slot="start"></ion-icon>Upload POD
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <input type="file" #imageChooser (change)="onChooseFile($event, note)" [hidden]='true' />
+
+      <ion-row *ngIf="note.pod !== undefined && note.pod !== ''">
+        <ion-col class="ion-text-center">
+          <ion-button color="success">
+            <ion-icon name="checkmark-done" slot="start"></ion-icon>Uploaded Successfully
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+    <div *ngIf="option === 'epod'">
+
+      <ion-grid style="width: 100%;">
+        <ion-row class="grid-header">
+          <ion-col class="grid-header-item">
+            Item Number
+          </ion-col>
+          <ion-col class="grid-header-item">
+            Description
+          </ion-col>
+          <ion-col class="grid-header-item">
+            Weight
+          </ion-col>
+          <ion-col>
+            Quantitiy
+          </ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let item of note.stock" class="grid-row">
+          <ion-col class="grid-row-item">
+            {{item.cad}}
+          </ion-col>
+          <ion-col class="grid-row-item">
+            {{item.cai}}
+          </ion-col>
+          <ion-col class="grid-row-item">
+            {{item.weight}}
+          </ion-col>
+          <ion-col class="last-col">
+            {{item.amount}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item>
+        <ion-label style="color: darkblue;" position="floating">Did you receive all your items?</ion-label>
+        <ion-select interface="popover" [(ngModel)]="gotAll">
+          <ion-select-option value="yes">Yes</ion-select-option>
+          <ion-select-option value="no">No</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="gotAll === 'no'">
+        <ion-label style="color: darkblue;" position="floating">How many items did you receive?</ion-label>
+        <ion-input type="number" [(ngModel)]="amount"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label style="color: darkblue;" position="floating">Enter any notes here...</ion-label>
+        <ion-textarea [(ngModel)]="customNotes"></ion-textarea>
+      </ion-item>
+  
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Driver Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="driverSigniture !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #signatureCanvas1 ngDefaultControl [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart('driver', 1)" (onEndEvent)="drawComplete('driver', 1)">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="driverSigniture !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="driverSigniture">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad('driver', 1)">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Receiver Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="customerSigniture !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #signatureCanvas2 ngDefaultControl [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart('customer', 2)" (onEndEvent)="drawComplete('customer', 2)">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="customerSigniture !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="customerSigniture">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad('customer', 2)">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-item>
+            <ion-label class="ion-text-center">Storemen Signature </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row [hidden]="storemenSigniture !== ''" [ngClass]="{ 'drawing-active': isDrawing }">
+        <ion-col class="ion-text-center">
+          <signature-pad style="border: solid #666666;" #signatureCanvas3 ngDefaultControl [options]="signaturePadOptions"
+          (onBeginEvent)="drawStart('storemen', 3)" (onEndEvent)="drawComplete('storemen', 3)">
+          </signature-pad>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="storemenSigniture !== ''">
+        <ion-col class="ion-text-center">
+          <img [src]="storemenSigniture">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="clearPad('storemen', 3)">Reset Signature</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+    <ion-row *ngIf="option === 'epod' || option === 'upload'">
+      <ion-col class="ion-text-center">
+        <ion-button (click)="save()">
+          <ion-icon name="save" slot="start"></ion-icon>Save & Submit
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+</ion-content>
+
+    <!--
+
+    <div style="width: 100%; display: flex; border-bottom: 1px solid black;">
+      <div style="flex-direction: row; width: 20%;">
+        <ion-label class="heading">Item Number</ion-label>
+      </div>
+      <div style="flex-direction: row; width: 35%;">
+        <ion-label class="heading">Description</ion-label>
+      </div>
+      <div style="flex-direction: row; width: 15%;">
+        <ion-label class="heading">Weight</ion-label>
+      </div>
+      <div style="flex-direction: row; width: 25%;">
+        <ion-label class="heading">Quantitiy</ion-label>
+      </div>
+    </div>
+    <div style="width: 100%; height: 15vh;">
+      <div style="width: 100%; display: flex;" *ngFor="let item of stock">
+        <div style="flex-direction: row; width: 20%;">
+          <ion-label class="field">{{item.cad}}</ion-label>
+        </div>
+        <div style="flex-direction: row; width: 35%;">
+          <ion-label class="field">{{item.cai}}</ion-label>
+        </div>
+        <div style="flex-direction: row; width: 15%;">
+          <ion-label class="field">{{item.weight}}</ion-label>
+        </div>
+        <div style="flex-direction: row; width: 15%;">
+          <ion-label class="field">{{item.amount}}</ion-label>
+        </div>
+      </div>
+    </div>
+
+
+    <div style="width: 100%; height: 15vh;">
+      <div style="width: 100%; display: flex;">
+        <div style="flex-direction: row; width: 50%;">
+          <ion-label class="heading">Did you receive all your items?</ion-label>
+        </div>
+        <div style="flex-direction: row; width: 50%;">
+          <ion-checkbox [(ngModel)]="gotAll"></ion-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%; height: 15vh;" *ngIf="!gotAll">
+      <div style="width: 100%; display: flex;">
+        <div style="flex-direction: row; width: 50%;">
+          <ion-label class="heading">How many items did you receive?</ion-label>
+        </div>
+        <div style="flex-direction: row; width: 50%;">
+          <ion-input class="field" type="number" [(ngModel)]="amount"></ion-input>
+        </div>
+      </div>
+    </div>
+    <div style="width: 100%; height: 15vh; border: 1px black solid; border-radius: 1px;"
+      [ngStyle]="{'border-color': borderColor}" *ngIf="!gotAll">
+      <ion-textarea rows="2" cols="20" placeholder="Enter any notes here..." [(ngModel)]="customNotes"></ion-textarea>
+    </div>
+
+
+    <div *ngIf="!showDriverSigniture" style="width: 100%; text-align: center;">
+      <ion-button (click)="showDriverSigniture =true">Add Driver Signiture</ion-button>
+    </div>
+    <div *ngIf="showDriverSigniture || showCustomerSigniture" style="width: 100%; text-align: center;">
+      <h6>Sign Here</h6>
+    </div>
+    <div style="width: 100%; text-align: center; border: 1px black solid;"
+      *ngIf="showDriverSigniture && !showCustomerSigniture">
+      <signature-pad ngDefaultControl #signatureCanvas [options]="signaturePadOptions"
+        (onBeginEvent)="drawStart('driver')" (onEndEvent)="drawComplete('driver')"></signature-pad>
+    </div>
+    <div style="width: 100%; text-align: center; border: 1px black solid;"
+      *ngIf="showCustomerSigniture && !showStoremenSigniture">
+      <signature-pad ngDefaultControl #signatureCanvas [options]="signaturePadOptions"
+        (onBeginEvent)="drawStart('customer')" (onEndEvent)="drawComplete('customer')"></signature-pad>
+    </div>
+    <div style="width: 100%; text-align: center; border: 1px black solid;" *ngIf="showStoremenSigniture">
+      <signature-pad ngDefaultControl #signatureCanvas [options]="signaturePadOptions"
+        (onBeginEvent)="drawStart('storemen')" (onEndEvent)="drawComplete('storemen')"></signature-pad>
+    </div>
+    <div style="width: 100%; text-align: center;"
+      *ngIf="showDriverSigniture && !showCustomerSigniture && !showStoremenSigniture!">
+      <ion-button (click)="showCustomerSigniture =true">Add Receiver Signiture</ion-button>
+    </div>
+    <div style="width: 100%; text-align: center;"
+      *ngIf="showDriverSigniture && showCustomerSigniture && !showStoremenSigniture">
+      <ion-button (click)="showStoremenSigniture =true">Add Storemen Signiture</ion-button>
+    </div>
+    <div style="width: 100%; text-align: center;" *ngIf="driverSigniture && customerSigniture && storemenSigniture">
+      <ion-button (click)="complete()">Complete</ion-button>
+    </div>
+    <div style="width: 100%;">
+      <ion-button slot="end" fill="clear" (click)="reset()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </div>
+    -->

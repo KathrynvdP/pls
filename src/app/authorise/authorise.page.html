@@ -1,0 +1,263 @@
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-row style="margin-top: 20px;">
+      <ion-col size="2">
+      </ion-col>
+      <ion-col>
+        <h1 class="ion-text-center">Yard Summary: {{truck.fleetNo}}</h1>
+        <h4
+          [ngClass]="{'blue' : truck.authenticated=='In Yard','red' : truck.authenticated=='Awaiting','green' : truck.authenticated=='Authorised'}"
+          class="ion-text-center">Authorisation Status: {{truck.authenticated}}</h4>
+      </ion-col>
+      <ion-col size="2" class="ion-text-right">
+        <ion-button (click)="close()" fill="clear">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <h4 class="ion-text-center">CheckIn: Equipment Inspection</h4>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: orange; border-radius: 30px;"
+      *ngIf="!checkinCheck">
+      <h6 class="ion-text-center">CheckIn Incomplete</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: green; border-radius: 30px;"
+      *ngIf="checkinCheck">
+      <h6 class="ion-text-center">CheckIn Complete</h6>
+    </ion-grid>
+
+    <h4 class="ion-text-center">Washbay Inspection</h4>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: orange; border-radius: 30px;"
+      *ngIf="!washCheck">
+      <h6 class="ion-text-center">Washbay Inspection Incomplete</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: green; border-radius: 30px;"
+      *ngIf="washCheck === true && washDev === false && washComp === true">
+      <h6 class="ion-text-center">Washbay Inspection Complete</h6>
+      <h6 class="ion-text-center">All Good To Go!</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: #19b3e3; border-radius: 30px;"
+      *ngIf="washCheck === true && washComp === false">
+      <h6 class="ion-text-center">Washbay Inspection Complete</h6>
+      <h6 class="ion-text-center">This wash was bypassed</h6>
+      <img src="{{washbay.photo}}">
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: red; border-radius: 30px;"
+      *ngIf="washCheck === true && washDev === true && washComp === true">
+      <h6 class="ion-text-center">Washbay Inspection Complete with Deviations</h6>
+
+      <h6 class="ion-text-center"><u>Washbay Deviations</u></h6>
+
+      <div>
+        <ion-row>
+          <ion-col>
+            Number
+          </ion-col>
+          <ion-col>
+            Item
+          </ion-col>
+          <ion-col>
+            Note
+          </ion-col>
+          <ion-col>
+            Photo
+          </ion-col>
+          <ion-col>
+            Deviation actioned?
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let dev of washbay.deviations; let indexOfelement=index;">
+          <ion-col>
+            {{indexOfelement + 1}}
+          </ion-col>
+          <ion-col>
+            {{dev.item}}
+          </ion-col>
+          <ion-col>
+            {{dev.note}}
+          </ion-col>
+          <ion-col *ngIf="dev.photo !== ''">
+            <img [src]="dev.photo">
+          </ion-col>
+          <ion-col *ngIf="dev.photo === ''">
+            -
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === true">
+            Yes<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === false">
+            No<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === undefined">
+            -
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+
+    <h4 class="ion-text-center">Tyrebay Inspection</h4>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: orange; border-radius: 30px;"
+      *ngIf="!tyreCheck">
+      <h6 class="ion-text-center">Tyrebay Inspection Incomplete</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: green; border-radius: 30px;"
+      *ngIf="tyreCheck === true && tyreDev === false">
+      <h6 class="ion-text-center">Tyrebay Inspection Complete</h6>
+      <h6 class="ion-text-center">All Good To Go!</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: red; border-radius: 30px;"
+      *ngIf="tyreCheck === true && tyreDev === true">
+      <h6 class="ion-text-center">Tyrebay Inspection Complete with Deviations</h6>
+
+      <h6 class="ion-text-center"><u>Tyre Bay Deviations</u></h6>
+
+      <div>
+        <ion-row>
+          <ion-col>
+            Number
+          </ion-col>
+          <ion-col>
+            Item
+          </ion-col>
+          <ion-col>
+            Note
+          </ion-col>
+          <ion-col>
+            Photo
+          </ion-col>
+          <ion-col>
+            Deviation actioned?
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let dev of tyrebay.deviations; let indexOfelement=index;">
+          <ion-col>
+            {{indexOfelement + 1}}
+          </ion-col>
+          <ion-col>
+            {{dev.item}}
+          </ion-col>
+          <ion-col>
+            {{dev.note}}
+          </ion-col>
+          <ion-col *ngIf="dev.photo !== ''">
+            <img [src]="dev.photo">
+          </ion-col>
+          <ion-col *ngIf="dev.photo === ''">
+            -
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === true">
+            Yes<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === false">
+            No<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === undefined">
+            -
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+
+    <h4 class="ion-text-center">Workshop Inspection</h4>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: orange; border-radius: 30px;"
+      *ngIf="!workCheck">
+      <h6 class="ion-text-center">Workshop Inspection Incomplete</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: green; border-radius: 30px;"
+      *ngIf="workCheck === true && workDev === false">
+      <h6 class="ion-text-center">Workshop Inspection Complete</h6>
+      <h6 class="ion-text-center">All Good To Go!</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: red; border-radius: 30px;"
+      *ngIf="workCheck === true && workDev === true">
+      <h6 class="ion-text-center">Workshop Inspection Complete with Deviations</h6>
+
+      <h6 class="ion-text-center"><u>Workshop Deviations</u></h6>
+
+      <div>
+        <ion-row>
+          <ion-col>
+            Number
+          </ion-col>
+          <ion-col>
+            Item
+          </ion-col>
+          <ion-col>
+            Note
+          </ion-col>
+          <ion-col>
+            Photo
+          </ion-col>
+          <ion-col>
+            Deviation actioned?
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let dev of workshop.deviations; let indexOfelement=index;">
+          <ion-col>
+            {{indexOfelement + 1}}
+          </ion-col>
+          <ion-col>
+            {{dev.item}}
+          </ion-col>
+          <ion-col>
+            {{dev.note}}
+          </ion-col>
+          <ion-col *ngIf="dev.photo !== ''">
+            <img [src]="dev.photo">
+          </ion-col>
+          <ion-col *ngIf="dev.photo === ''">
+            -
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === true">
+            Yes<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === false">
+            No<br>
+            {{dev.correction}}
+          </ion-col>
+          <ion-col *ngIf="dev.actioned === undefined">
+            -
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+
+
+    <h4 class="ion-text-center">Diesel Bay Inspection</h4>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: orange; border-radius: 30px;"
+      *ngIf="!dieselCheck">
+      <h6 class="ion-text-center">Diesel Bay Inspection Incomplete</h6>
+    </ion-grid>
+
+    <ion-grid style="width: 80%; border: solid #000000; background-color: green; border-radius: 30px;"
+      *ngIf="dieselCheck">
+      <h6 class="ion-text-center">Diesel Bay Inspection Complete</h6>
+    </ion-grid>
+
+    <ion-row *ngIf="truck.authenticated === 'Awaiting'">
+      <ion-col class="ion-text-center">
+        <ion-button color="success" style="width: 50%; height: 50px; color: black;" (click)="check()" shape="round">Authorise Vehicle
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>

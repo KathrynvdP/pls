@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Trip Sheet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white; padding: 10px;">
+
+    <div *ngIf="start">
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.dateStart"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.timeStart"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Driver</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.driver"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="trip.fleetNo !== ''">
+        <ion-label position="stacked">Truck</ion-label>
+        <ion-input [readonly]="true">{{trip.fleet}}: {{trip.fleetNo}}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Or Select a Truck</ion-label>
+        <ionic-selectable [(ngModel)]="truck" [items]="trucks" itemValueField="fleetNo"
+          itemTextField="fleetNo" [canSearch]="true" (onChange)="changeTruck(truck)">
+        </ionic-selectable>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Start Mileage (km)</ion-label>
+        <ion-input type="number" [(ngModel)]="trip.kmStart"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked" style="margin-bottom: 10px !important;">Start Location
+        </ion-label>
+        <input style="width: 100%;" class="form-control" ngx-google-places-autocomplete #placesRef="ngx-places"
+          (onAddressChange)="handleAddressChange1($event)" [value]="trip.locStart">
+      </ion-item>
+
+    </div>
+
+    <div *ngIf="!start">
+
+      <ion-item>
+        <ion-label position="floating">Date</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.dateEnd"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Time</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.timeEnd"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Driver</ion-label>
+        <ion-input [readonly]="true" [(ngModel)]="trip.driver"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Truck</ion-label>
+        <ion-input [readonly]="true">{{trip.fleet}}: {{trip.fleetNo}}</ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">End Mileage (km)</ion-label>
+        <ion-input type="number" [(ngModel)]="trip.kmEnd"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked" style="margin-bottom: 10px !important;">End Location
+        </ion-label>
+        <input style="width: 100%;" class="form-control" ngx-google-places-autocomplete #placesRef="ngx-places"
+          (onAddressChange)="handleAddressChange2($event)" [value]="trip.locEnd">
+      </ion-item>
+
+    </div>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check2()" *ngIf="!start">
+          <ion-icon name="save-outline" slot="start"></ion-icon>End Trip
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check1()" *ngIf="start">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Start Trip
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

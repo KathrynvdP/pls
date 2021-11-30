@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center">Request Security Authentication</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-item>
+      <ion-label position="floating">Select a Truck</ion-label>
+      <ionic-selectable [(ngModel)]="option" [items]="trucks" itemValueField="registration" itemTextField="fleetNo"
+        [canSearch]="true">
+      </ionic-selectable>
+    </ion-item>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="reqAuth()">Request</ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+</ion-content>

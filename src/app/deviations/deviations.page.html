@@ -1,0 +1,208 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Deviation Correction</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <ion-item *ngIf="!gotTruck">
+      <ion-label>Select the Truck</ion-label>
+      <ionic-selectable style="text-align: right;" [(ngModel)]="truck" [items]="trucks" itemValueField="fleetNo"
+        itemTextField="fleetNo" [canSearch]="true" (onChange)="getDevs(truck)">
+      </ionic-selectable>
+    </ion-item>
+
+    <div *ngIf="gotTruck">
+
+      <h4 style="text-align: center;">Truck: {{truck.fleetNo}}</h4>
+
+      <div *ngIf="wash">
+
+        <h4>WashBay Deviations</h4>
+
+        <div *ngIf="!washDev">
+          <ion-text>No Deviations Found</ion-text>
+        </div>
+
+        <div *ngIf="washDev">
+
+          <ion-row>
+            <ion-col>
+              Number
+            </ion-col>
+            <ion-col>
+              Item
+            </ion-col>
+            <ion-col>
+              Note
+            </ion-col>
+            <ion-col>
+              Photo
+            </ion-col>
+          </ion-row>
+          <div *ngFor="let dev of washDevs; let indexOfelement=index;">
+            <ion-row>
+              <ion-col>
+                {{indexOfelement + 1}}
+              </ion-col>
+              <ion-col>
+                {{dev.item}}
+              </ion-col>
+              <ion-col>
+                {{dev.note}}
+              </ion-col>
+              <ion-col>
+                <img [src]="dev.photo">
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                Has this deviation been actioned?<br>
+              </ion-col>
+              <ion-col>
+                No<ion-toggle class="toggle" [(ngModel)]="dev.actioned"></ion-toggle>Yes
+              </ion-col>
+            </ion-row>
+            <ion-row style="border-bottom: solid black 1px;">
+              <ion-col>
+                <ion-input placeholder="Correction Notes" [(ngModel)]="dev.correction"></ion-input>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tyre">
+
+        <h4>TyreBay Deviations</h4>
+
+        <div *ngIf="!tyreDev">
+
+          <ion-text>No Deviations Found</ion-text>
+        </div>
+
+        <div *ngIf="tyreDev">
+
+          <ion-row>
+            <ion-col>
+              Number
+            </ion-col>
+            <ion-col>
+              Item
+            </ion-col>
+            <ion-col>
+              Note
+            </ion-col>
+            <ion-col>
+              Photo
+            </ion-col>
+          </ion-row>
+          <div *ngFor="let dev of tyreDevs; let indexOfelement=index;">
+            <ion-row>
+              <ion-col>
+                {{indexOfelement + 1}}
+              </ion-col>
+              <ion-col>
+                {{dev.item}}
+              </ion-col>
+              <ion-col>
+                {{dev.note}}
+              </ion-col>
+              <ion-col>
+                <img [src]="dev.photo">
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                Has this deviation been actioned?<br>
+              </ion-col>
+              <ion-col>
+                No<ion-toggle class="toggle" [(ngModel)]="dev.actioned"></ion-toggle>Yes
+              </ion-col>
+            </ion-row>
+            <ion-row style="border-bottom: solid black 1px;">
+              <ion-col>
+                <ion-input placeholder="Correction Notes" [(ngModel)]="dev.correction"></ion-input>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="work">
+
+        <h4>Workshop Deviations</h4>
+
+        <div *ngIf="!workDev">
+
+          <ion-text>No Deviations Found</ion-text>
+        </div>
+
+        <div *ngIf="workDev">
+
+          <ion-row>
+            <ion-col>
+              Number
+            </ion-col>
+            <ion-col>
+              Item
+            </ion-col>
+            <ion-col>
+              Note
+            </ion-col>
+            <ion-col>
+              Photo
+            </ion-col>
+          </ion-row>
+          <div *ngFor="let dev of workDevs; let indexOfelement=index;">
+            <ion-row>
+              <ion-col>
+                {{indexOfelement + 1}}
+              </ion-col>
+              <ion-col>
+                {{dev.item}}
+              </ion-col>
+              <ion-col>
+                {{dev.note}}
+              </ion-col>
+              <ion-col>
+                <img [src]="dev.photo">
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                Has this deviation been actioned?<br>
+              </ion-col>
+              <ion-col>
+                No<ion-toggle class="toggle" [(ngModel)]="dev.actioned"></ion-toggle>Yes
+              </ion-col>
+            </ion-row>
+            <ion-row style="border-bottom: solid black 1px;">
+              <ion-col>
+                <ion-input placeholder="Correction Notes" [(ngModel)]="dev.correction"></ion-input>
+              </ion-col>
+            </ion-row>
+          </div>
+        </div>
+
+      </div>
+
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button (click)="save()">
+            <ion-icon name="save" slot="start"></ion-icon>Save Corrections
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+    </div>
+
+  </ion-card>
+
+</ion-content>

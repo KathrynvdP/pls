@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md" class="ion-text-center">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: white; text-align: center; margin-right: 40px;">Fuel Record</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card style="background-color: white;">
+
+    <ion-item>
+      <ion-label position="floating">Date</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="fuel.date"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Time</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="fuel.time"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Driver</ion-label>
+      <ion-input [readonly]="true" [(ngModel)]="fuel.name"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="fuel.fleetNo !== ''">
+      <ion-label position="stacked">Truck</ion-label>
+      <ion-input [readonly]="true">{{fuel.fleet}}: {{fuel.fleetNo}}</ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col style="color: darkblue;" size="10" class="ion-text-center">
+        <ion-label>Is this the correct vehicle?</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-center">
+        <ion-checkbox [(ngModel)]="correctFleet" (ionChange)="getTruck()"></ion-checkbox>
+      </ion-col>
+    </ion-row>
+
+    <ion-item *ngIf="fuel.fleetNo === '' || correctFleet === false">
+      <ion-label position="floating">Select a Truck</ion-label>
+      <ionic-selectable [(ngModel)]="truck" [items]="trucks" itemValueField="fleetNo" itemTextField="fleetNo"
+        [canSearch]="true" (onChange)="changeTruck()">
+      </ionic-selectable>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Select a Station</ion-label>
+      <ionic-selectable [(ngModel)]="station" [items]="stations" itemValueField="name" itemTextField="name"
+        [canSearch]="true" (onChange)="setStation(station)">
+      </ionic-selectable>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Current Mileage (km)</ion-label>
+      <ion-input type="number" [(ngModel)]="fuel.km"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Litres Taken</ion-label>
+      <ion-input [(ngModel)]="fuel.litre" (ionChange)="calcPrice()"></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button (click)="takePhoto()">
+          <ion-icon name="camera" slot="start"></ion-icon>Take a Photo of the Receipt
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <input #picture (change)="fileChangeEvent($event)" style="display:none;" type="file" accept="image/*"
+      capture="camera">
+
+    <ion-item class="ion-text-center">
+      <h6>Receipt: </h6>
+    </ion-item>
+
+    <div text-centre>
+      <img *ngIf="fuel.receipt !== '' && fuel.receipt !== undefined" [src]="fuel.receipt" class="thumb">
+    </div>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button color="success" (click)="check()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>Save
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

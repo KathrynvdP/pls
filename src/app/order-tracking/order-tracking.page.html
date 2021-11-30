@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary" mode="md">
+    <ion-title class="ion-text-center">Tracking Order: {{loadNum}}</ion-title>
+    <!--
+    <ion-buttons slot="end">
+      <ion-button (click)="uploadOptions($event)" fill="clear">
+        <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [hidden]="completed"> 
+
+  <agm-map [latitude]="currentPos.lat" [longitude]="currentPos.lng" [fitBounds]="false" [streetViewControl]="false"
+    [zoomControl]='true' [scrollwheel]='true' [mapDraggable]='true' [fullscreenControl]='false'
+    (mapReady)="onMapReady($event)" [zoom]="13">
+    <agm-marker *ngFor="let mark of markers" [latitude]="mark.lat" [longitude]="mark.lng" [agmFitBounds]="true"
+      (markerClick)="markerClicked(mark)" [iconUrl]="mark.iconUrl">
+    </agm-marker>
+  </agm-map>
+
+  <div style="text-align: center; margin-top: -35%;">
+    <ion-card>
+      <div style="width: 80%; display: flex;" *ngFor="let note of notes">
+        <h6 style="margin-left: 10%;" >{{note.delNote}}</h6>
+        <h6 style="margin-left: 10%;" >Distance to {{note.endPos.name}}: {{note.estDist}}<br>Estimated Arrival Time: {{note.eta}}</h6>
+        <ion-button *ngIf="completedNotesKeys.indexOf(note.key) == -1" (click)="completeOrder(note)" fill="clear" style="margin-right: -20%;"><ion-icon name="checkmark-circle-outline"></ion-icon></ion-button>
+        <ion-button  *ngIf="completedNotesKeys.indexOf(note.key) > -1" fill="clear"><ion-icon  name="checkmark-done-outline"></ion-icon></ion-button>
+      </div>
+    </ion-card>
+  </div>
+
+</ion-content>
